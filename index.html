@@ -384,17 +384,12 @@
 
         // --- FORM ---
         document.getElementById('contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
             const feedback = document.getElementById('form-feedback');
             feedback.style.color = 'var(--accent-color)';
             feedback.textContent = 'Sending...';
-            setTimeout(() => {
-                feedback.textContent = 'Thank you for your message!';
-                this.reset();
-                setTimeout(() => feedback.textContent = '', 5000);
-            }, 2000);
         });
-        
+
+                
         // --- ADMIN LOGIC ---
         const bodyTag = document.getElementById('body-tag');
         const pinModal = document.getElementById('pin-modal-overlay');
