@@ -383,10 +383,35 @@
         sections.forEach(section => observer.observe(section));
 
         // --- FORM ---
-        document.getElementById('contact-form').addEventListener('submit', function(e) {
-            const feedback = document.getElementById('form-feedback');
-            feedback.style.color = 'var(--accent-color)';
-            feedback.textContent = 'Sending...';
+        const form = document.getElementById('contact-form');
+        const feedback = document.getElementById('form-feedback');
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault(); // stop default submission for feedback handling
+          feedback.style.color = 'var(--accent-color)';
+          feedback.textContent = 'Sending...';
+
+          const formData = new FormData(form);
+
+          fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          })
+          .then(response => {
+            if (response.ok) {
+              feedback.style.color = '#22c55e';
+              feedback.textContent = '✅ Thank you! Your message has been sent.';
+              form.reset();
+            } else {
+              feedback.style.color = '#ef4444';
+              feedback.textContent = '❌ Something went wrong. Please try again.';
+            }
+          })
+          .catch(() => {
+            feedback.style.color = '#ef4444';
+            feedback.textContent = '❌ Network error. Please try again.';
+          });
         });
 
 
